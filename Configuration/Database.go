@@ -3,7 +3,7 @@ package Configuration
 import (
 	"fmt"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
@@ -30,7 +30,7 @@ func BuildDBConfiguration() *DBConfiguration {
 
 func DBURL(dbConfiguration *DBConfiguration) string {
 	return fmt.Sprintf(
-		"%s:%s@tcp(%s:%d)/%s",
+		"%s:%s@tcp(%s:%d)/%s?parseTime=true&loc=Local",
 		dbConfiguration.user,
 		dbConfiguration.password,
 		dbConfiguration.host,

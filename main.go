@@ -6,18 +6,20 @@ import (
 	"api-gin-gionic-gorm-mysql/Routers"
 	"fmt"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 var err error
 
 func main() {
 
-	Configuration.DB, err = gorm.Open("mysql", Configuration.DBURL(Configuration.BuildDBConfiguration()))
+	//Configuration.DB, err = gorm.Open("mysql", Configuration.DBURL(Configuration.BuildDBConfiguration()))
+	Configuration.DB, err = gorm.Open(mysql.Open(Configuration.DBURL(Configuration.BuildDBConfiguration())), &gorm.Config{})
+
 	if err != nil {
 		fmt.Println("Status:", err)
 	}
-	//defer Configuration.DB.Close()
 	Configuration.DB.AutoMigrate(&Models.User{})
 	r := Routers.SetupRouter()
 	//running
